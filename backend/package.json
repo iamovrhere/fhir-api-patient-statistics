@@ -1,0 +1,13 @@
+{
+  "name": "fhir-api-patient-statistics",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "debug": "nodemon --inspect-brk src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  }
+}

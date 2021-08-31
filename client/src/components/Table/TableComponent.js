@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 });
 
 const UNDEFINED = 'N/A?';
-const PEDIATRIC_AGE = 18;
 const PEDIATRIC_LABEL = 'Show Pediatric Only'
 
 export default function BasicTable({ rows }) {
@@ -46,9 +45,9 @@ export default function BasicTable({ rows }) {
         </TableHead>
         <TableBody>
           {rows
-            .filter(patient => pediatricOnly ? patient.age < PEDIATRIC_AGE : true)
+            .filter(patient => pediatricOnly ? patient.isPediatric : true)
             .map((patient) => (
-              <TableRow key={patient.id}>
+              <TableRow key={patient.id + patient.familyName + patient.givenName + patient.birthDate}>
                 <TableCell component="th" scope="row">
                   {patient.familyName ?? UNDEFINED}
                 </TableCell>

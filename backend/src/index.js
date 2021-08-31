@@ -11,7 +11,7 @@ const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8080;
 const API_BASE = 'hapi.fhir.org';
 const RECORD_COUNT = 100;
 const PEDIATRIC_AGE = 18;
-const FETCH_ALL_RECORDS = true;
+const FETCH_ALL_RECORDS = false;
 
 app.get('/', (req, res) => {
   res.send('Welcome to the backend!')
@@ -22,14 +22,18 @@ const extractPatientData = ({
   name,
   birthDate,
   gender
-}) => ({
-  id,
-  familyName: name?.[0]?.family,
-  givenName: name?.[0]?.given?.join(' '),
-  gender,
-  birthDate,
-  age: (new Date(new Date() - new Date(birthDate)).getFullYear() - 1970)
-});
+}) => {
+  const age = (new Date(new Date() - new Date(birthDate)).getFullYear() - 1970);
+  return {
+    id,
+    familyName: name?.[0]?.family,
+    givenName: name?.[0]?.given?.join(' '),
+    gender,
+    birthDate,
+    age,
+    isPediatric: age < PEDIATRIC_AGE
+  };
+};
 
 const aggregateData = async () => {
   return new Promise(async (resolve, reject) => {
@@ -66,14 +70,12 @@ const aggregateData = async () => {
             const patient = extractPatientData(data?.resource);
             if (resource.resourceType === 'Patient' && patient.familyName) {
               sumAge += isNaN(patient.age) ? 0 : patient.age;
-              result.pediatricTotal += patient.age > PEDIATRIC_AGE ? 0 : 1;
+              result.pediatricTotal += patient.isPediatric ? 1 : 0;
               result.ageHistogram[patient.age] =
                 result.ageHistogram[patient.age] ?
                   result.ageHistogram[patient.age] + 1 : 1;
 
               result.entries.push(patient);
-            } else {
-              console.info(resource);
             }
           });
         }

@@ -28,6 +28,13 @@ The plan is to have a node backend + separate React frontend.
 * **Recommended:** Node 14 (via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
 * yarn - [Install yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 
+### Setup
+
+Backend:
+  - `yarn install` + `yarn start`
+Frontend:
+  - `yarn install` + `yarn start`
+
 
 ###  Error: `System limit for number of file watchers reached`
 

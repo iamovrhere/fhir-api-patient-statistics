@@ -1,5 +1,5 @@
 {
-  "name": "fhir-api-patient-statistics",
+  "name": "fhir-api-patient-statistics-backend",
   "version": "0.1.0",
   "private": true,
   "scripts": {

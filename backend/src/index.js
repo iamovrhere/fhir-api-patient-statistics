@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 
 const app = express();
 const q = queue({ results: [] });
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8080;
 
 // TODO break out into configuration value.
 const API_BASE = 'hapi.fhir.org';
@@ -18,10 +18,12 @@ app.get('/', (req, res) => {
 });
 
 const extractPatientData = ({
+  id,
   name,
   birthDate,
   gender
 }) => ({
+  id,
   familyName: name?.[0]?.family,
   givenName: name?.[0]?.given?.join(' '),
   gender,
@@ -86,7 +88,7 @@ const aggregateData = async () => {
   });
 }
 
-app.get('/api', async (req, res) => {
+app.get('/api/patient_statistics', async (req, res) => {
   // TODO in a real application use a queue.
   // Then fetch the results later either with socket + polling
   // the queue.

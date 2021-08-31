@@ -2,10 +2,9 @@
 
 ## Background
 
-This is a 1 hour take home assignment.
+This is a take home assignment.
 
 ## Application Requirements
-
 
 1. Create a simple web application (you can use whatever boilerplate you think best)
 1. Go to the sandbox site: http://hapi.fhir.org/, this is a test server from UHN to test out FHIR API calls (https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources ) – the latest interoperability standard to exchange health information. Note: we don’t own this server but regularly use it to do FHIR testing. We regularly use FHIR calls to integrate with hospital electronic health records (e.g. get patient data). Please note we don’t own this sandbox, the data is public, and also that other people will be interacting with it as well (e.g. other users might send test data in so your queries might not always return the same thing).
@@ -31,9 +30,13 @@ The plan is to have a node backend + separate React frontend.
 ### Setup
 
 Backend:
-  - `yarn install` + `yarn start`
+    - `yarn install` + `yarn start`
+    - Available on: http://localhost:8080
+    - Config in `backend/src/config.json`
 Frontend:
-  - `yarn install` + `yarn start`
+    - `yarn install` + `yarn start`
+    - Available on: http://localhost:3000
+    - Config in `client/public/settings.js`
 
 
 ###  Error: `System limit for number of file watchers reached`

@@ -1,0 +1,6 @@
+{
+  "PORT": 8080,
+  "API_BASE": "hapi.fhir.org",
+  "RECORD_COUNT": 250,
+  "PEDIATRIC_AGE": 18
+}

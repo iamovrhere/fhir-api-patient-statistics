@@ -18,6 +18,15 @@ This is a take home assignment.
 1. Create a simple table to lists out all patients in your dataset (columns can be name, birthdate, and any other relevant information you feel appropriate). Include a simple filter for this table to show only pediatric cases (patients less than age 18).
 1. Extra: some considerations for you to make include what happens if the dataset is over 100,000+ patients – how do you manage load performance. How about if we needed to store the data but also secure/encrypt it? (You don’t need to code these, but be prepared to discuss strategies).
 
+### Assumptions
+
+- We'll list only a selection (250) of items for 1st iteration. This is because the content can be variable in size. If we want all, the backend does offer an `all` option.
+- We can do a synchronous request for 1st iteration since total is < 1000.
+- Some records have no birthDates. These are shown as `N/A?`.
+- Records without age are omitted from averages.
+- Assuming thin client since if we were to apply this in real world, likely store some data and database which is faster at large data. Additionally can add caching etc.
+- Time-travel is possible/Ages can be negative; some birth dates given are from the future.
+
 ## Design
 
 The plan is to have a node backend + separate React frontend.

@@ -41,13 +41,14 @@ export default function BasicTable({ rows }) {
             <TableCell>Gender</TableCell>
             <TableCell align="right">Birth Date</TableCell>
             <TableCell align="right">Age</TableCell>
+            <TableCell align="right">Pediatric</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows
             .filter(patient => pediatricOnly ? patient.isPediatric : true)
-            .map((patient) => (
-              <TableRow key={patient.id + patient.familyName + patient.givenName + patient.birthDate}>
+            .map((patient, index) => (
+              <TableRow key={index + '-' + patient.id}>
                 <TableCell component="th" scope="row">
                   {patient.familyName ?? UNDEFINED}
                 </TableCell>
@@ -55,6 +56,7 @@ export default function BasicTable({ rows }) {
                 <TableCell >{patient.gender ?? UNDEFINED}</TableCell>
                 <TableCell align="right">{patient.birthDate ?? UNDEFINED}</TableCell>
                 <TableCell align="right">{patient.age ?? UNDEFINED}</TableCell>
+                <TableCell align="right">{`${patient.isPediatric ? 'T' : 'F'}`}</TableCell>
               </TableRow>
             ))}
         </TableBody>

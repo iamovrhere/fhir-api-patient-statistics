@@ -8,7 +8,7 @@ const fetch = require('node-fetch');
  * familyName: string|undefined,
  * givenName: string|undefined,
  * gender: string|undefined,
- * age: number|undefined,
+ * age: number|string,
  * isPediatric: boolean
  * }} Patient
  */
@@ -36,7 +36,7 @@ const extractPatientData = ({
     givenName: name?.[0]?.given?.join(' '),
     gender,
     birthDate,
-    age,
+    age: isNaN(age) ? 'Unknown' : age,
     isPediatric: age < config.PEDIATRIC_AGE
   };
 };
@@ -55,6 +55,7 @@ const isValidPatient = (resource, patient) => {
  * @typedef {{
  *  pediatricTotal: number,
  *  averageAge: number,
+ *  agelessTotal: number,
  *  ageHistogram: { number: number },
  *  entries: [Patient]
  * }} AggregateResult
@@ -71,10 +72,12 @@ const addToResult = (result, sumAge, patient) => {
   let newResult = {
     pediatricTotal: result.pediatricTotal ?? 0,
     averageAge: result.averageAge ?? 0,
+    agelessTotal: result.agelessTotal ?? 0,
     ageHistogram: result.ageHistogram ? { ...result.ageHistogram } : {},
     entries: result.entries ? [...result.entries] : []
   };
   if (patient) {
+    newResult.agelessTotal += isNaN(patient.age) ? 1 : 0;
     sumAge += isNaN(patient.age) ? 0 : patient.age;
     newResult.pediatricTotal += patient.isPediatric ? 1 : 0;
     newResult.ageHistogram[patient.age] =
@@ -122,7 +125,8 @@ const aggregateData = async (fetchAllRecords) => {
         }
       } while (foundEntries && fetchAllRecords);
 
-      result.averageAge = sumAge / result.entries.length;
+      const totalAges = (result.entries.length - result.agelessTotal);
+      result.averageAge = sumAge / (totalAges > 0 ? totalAges : 1);
 
       resolve(result);
     } catch (error) {
